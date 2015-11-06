@@ -1,9 +1,5 @@
 package de.jeha.dropwizard.logging;
 
-/**
- * @author jenshadlich@googlemail.com
- */
-
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.contrib.json.JsonLayoutBase;
@@ -19,6 +15,11 @@ import io.dropwizard.logging.AbstractAppenderFactory;
 import javax.validation.constraints.NotNull;
 import java.util.TimeZone;
 
+/**
+ * Log Json to the console.
+ *
+ * @author jenshadlich@googlemail.com
+ */
 @JsonTypeName("console-json")
 public class ConsoleJsonAppenderFactory extends AbstractAppenderFactory {
 
