@@ -7,11 +7,13 @@ import ch.qos.logback.core.Layout;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.dropwizard.logging.AbstractAppenderFactory;
+import net.logstash.logback.appender.LogstashTcpSocketAppender;
+import net.logstash.logback.encoder.LogstashEncoder;
 
 import javax.validation.constraints.NotNull;
 
 @JsonTypeName("logstash-tcp")
-class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
+public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
 
     @NotNull
     private String destination;
@@ -28,8 +30,19 @@ class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
 
     @Override
     public Appender<ILoggingEvent> build(LoggerContext context, String applicationName, Layout<ILoggingEvent> layout) {
-        // TODO: implement me
-        return null;
+        final LogstashTcpSocketAppender appender = new LogstashTcpSocketAppender();
+        final LogstashEncoder encoder = new LogstashEncoder();
+
+        appender.setName("logstash-tcp-appender");
+        appender.setContext(context);
+        appender.addDestination(destination);
+
+        appender.setEncoder(encoder);
+        addThresholdFilter(appender, threshold);
+        encoder.start();
+        appender.start();
+
+        return wrapAsync(appender);
     }
 
 }
