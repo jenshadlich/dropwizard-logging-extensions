@@ -81,6 +81,7 @@ public class ConsoleJsonAppenderFactory extends AbstractAppenderFactory {
     @Override
     public Appender<ILoggingEvent> build(LoggerContext context, String applicationName, Layout<ILoggingEvent> layout) {
         final ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
+
         appender.setName("console-json-appender");
         appender.setContext(context);
         appender.setTarget(target.get());
