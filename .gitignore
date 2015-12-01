@@ -1,3 +1,5 @@
+/logstash/target
+/logstash/logstash.iml
 /console-json/console-json.iml
 /logging-extensions.iml
 /console-json/target
