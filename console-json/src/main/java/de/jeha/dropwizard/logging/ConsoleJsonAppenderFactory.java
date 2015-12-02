@@ -48,6 +48,9 @@ public class ConsoleJsonAppenderFactory extends AbstractAppenderFactory {
     @NotNull
     private Boolean appendLineSeparator = Boolean.TRUE;
 
+    @NotNull
+    private String timeStampFormat = "YYYY-MM-dd'T'HH:mm:ssZ";
+
     @JsonProperty
     public TimeZone getTimeZone() {
         return timeZone;
@@ -78,6 +81,16 @@ public class ConsoleJsonAppenderFactory extends AbstractAppenderFactory {
         this.appendLineSeparator = appendLineSeparator;
     }
 
+    @JsonProperty
+    public String getTimeStampFormat() {
+        return timeStampFormat;
+    }
+
+    @JsonProperty
+    public void setTimeStampFormat(String timeStampFormat) {
+        this.timeStampFormat = timeStampFormat;
+    }
+
     @Override
     public Appender<ILoggingEvent> build(LoggerContext context, String applicationName, Layout<ILoggingEvent> layout) {
         final ConsoleAppender<ILoggingEvent> appender = new ConsoleAppender<>();
@@ -86,13 +99,15 @@ public class ConsoleJsonAppenderFactory extends AbstractAppenderFactory {
         appender.setContext(context);
         appender.setTarget(target.get());
 
-        LayoutWrappingEncoder<ILoggingEvent> layoutEncoder = new LayoutWrappingEncoder<>();
+        LayoutWrappingEncoder<ILoggingEvent> encoder = new LayoutWrappingEncoder<>();
 
         JsonLayoutBase<ILoggingEvent> jsonLayout = new JsonLayout();
         jsonLayout.setAppendLineSeparator(appendLineSeparator);
+        jsonLayout.setTimestampFormat(timeStampFormat);
+        jsonLayout.setTimestampFormatTimezoneId(timeZone.getID());
 
-        layoutEncoder.setLayout(jsonLayout);
-        appender.setEncoder(layoutEncoder);
+        encoder.setLayout(jsonLayout);
+        appender.setEncoder(encoder);
 
         addThresholdFilter(appender, threshold);
         appender.start();
