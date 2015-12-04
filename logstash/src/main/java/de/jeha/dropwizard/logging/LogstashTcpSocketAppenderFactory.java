@@ -18,6 +18,9 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
     @NotNull
     private String destination;
 
+    @NotNull
+    private String tag;
+
     @JsonProperty
     public String getDestination() {
         return destination;
@@ -28,6 +31,16 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
         this.destination = destination;
     }
 
+    @JsonProperty
+    public String getTag() {
+        return tag;
+    }
+
+    @JsonProperty
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Override
     public Appender<ILoggingEvent> build(LoggerContext context, String applicationName, Layout<ILoggingEvent> layout) {
         final LogstashTcpSocketAppender appender = new LogstashTcpSocketAppender();
@@ -36,6 +49,9 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
         appender.setName("logstash-tcp-appender");
         appender.setContext(context);
         appender.addDestination(destination);
+
+        encoder.setCustomFields("{\"tags\":\"" + tag + "\"}");
+        encoder.setTimeZone("UTC");
 
         appender.setEncoder(encoder);
         addThresholdFilter(appender, threshold);
