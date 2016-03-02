@@ -1,3 +1,4 @@
+/atlassian-ide-plugin.xml
 /logstash/target
 /logstash/logstash.iml
 /console-json/console-json.iml
@@ -5,4 +6,4 @@
 /console-json/target
 /logging-extensions.iws
 /logging-extensions.ipr
-# Created by .ignore support plugin (hsz.mobi)
+
