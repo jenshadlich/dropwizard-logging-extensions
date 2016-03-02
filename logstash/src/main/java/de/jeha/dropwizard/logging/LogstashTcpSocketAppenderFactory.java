@@ -6,6 +6,7 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.Layout;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import de.jeha.dropwizard.logging.logstash.EventLogLogstashEncoder;
 import io.dropwizard.logging.AbstractAppenderFactory;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
 import net.logstash.logback.encoder.LogstashEncoder;
@@ -19,7 +20,10 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
     private String destination;
 
     @NotNull
-    private String tag;
+    private String applicationName;
+
+    @NotNull
+    private String applicationVersion;
 
     @JsonProperty
     public String getDestination() {
@@ -32,29 +36,39 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
     }
 
     @JsonProperty
-    public String getTag() {
-        return tag;
+    public String getApplicationName() {
+        return applicationName;
     }
 
     @JsonProperty
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+    }
+
+    @JsonProperty
+    public String getApplicationVersion() {
+        return applicationVersion;
+    }
+
+    @JsonProperty
+    public void setApplicationVersion(String applicationVersion) {
+        this.applicationVersion = applicationVersion;
     }
 
     @Override
-    public Appender<ILoggingEvent> build(LoggerContext context, String applicationName, Layout<ILoggingEvent> layout) {
+    public Appender<ILoggingEvent> build(LoggerContext context,
+                                         String dwApplicationName,
+                                         Layout<ILoggingEvent> layout) {
         final LogstashTcpSocketAppender appender = new LogstashTcpSocketAppender();
-        final LogstashEncoder encoder = new LogstashEncoder();
+        final LogstashEncoder encoder = new EventLogLogstashEncoder(applicationName, applicationVersion);
 
         appender.setName("logstash-tcp-appender");
         appender.setContext(context);
         appender.addDestination(destination);
 
-        encoder.setCustomFields("{\"tags\":\"" + tag + "\"}");
-        encoder.setTimeZone("UTC");
-
         appender.setEncoder(encoder);
         addThresholdFilter(appender, threshold);
+
         encoder.start();
         appender.start();
 
