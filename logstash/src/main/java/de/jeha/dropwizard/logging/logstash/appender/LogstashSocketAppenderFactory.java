@@ -1,4 +1,4 @@
-package de.jeha.dropwizard.logging;
+package de.jeha.dropwizard.logging.logstash.appender;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;

@@ -1,4 +1,4 @@
-package de.jeha.dropwizard.logging.logstash;
+package de.jeha.dropwizard.logging.logstash.encoder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

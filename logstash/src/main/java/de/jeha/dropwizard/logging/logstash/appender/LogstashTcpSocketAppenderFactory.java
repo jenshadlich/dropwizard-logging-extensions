@@ -1,4 +1,4 @@
-package de.jeha.dropwizard.logging;
+package de.jeha.dropwizard.logging.logstash.appender;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -6,14 +6,14 @@ import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.Layout;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import de.jeha.dropwizard.logging.logstash.EventLogLogstashEncoder;
+import de.jeha.dropwizard.logging.logstash.encoder.EventLogLogstashEncoder;
 import io.dropwizard.logging.AbstractAppenderFactory;
 import net.logstash.logback.appender.LogstashTcpSocketAppender;
 import net.logstash.logback.encoder.LogstashEncoder;
 
 import javax.validation.constraints.NotNull;
 
-@JsonTypeName("logstash-tcp")
+@JsonTypeName("logstash-event-log-tcp")
 public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
 
     @NotNull
@@ -62,7 +62,7 @@ public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
         final LogstashTcpSocketAppender appender = new LogstashTcpSocketAppender();
         final LogstashEncoder encoder = new EventLogLogstashEncoder(applicationName, applicationVersion);
 
-        appender.setName("logstash-tcp-appender");
+        appender.setName("logstash-event-log-tcp-appender");
         appender.setContext(context);
         appender.addDestination(destination);
 

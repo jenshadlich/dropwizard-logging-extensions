@@ -1,11 +1,13 @@
-package de.jeha.dropwizard.logging.logstash;
+package de.jeha.dropwizard.logging.logstash.encoder;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author jenshadlich@googlemail.com
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class CustomFields {
 
     @JsonProperty("application_name")

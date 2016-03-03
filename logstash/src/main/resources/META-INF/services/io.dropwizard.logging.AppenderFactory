@@ -1,2 +1,2 @@
-de.jeha.dropwizard.logging.LogstashSocketAppenderFactory
-de.jeha.dropwizard.logging.LogstashTcpSocketAppenderFactory
+de.jeha.dropwizard.logging.logstash.appender.LogstashSocketAppenderFactory
+de.jeha.dropwizard.logging.logstash.appender.LogstashTcpSocketAppenderFactory
