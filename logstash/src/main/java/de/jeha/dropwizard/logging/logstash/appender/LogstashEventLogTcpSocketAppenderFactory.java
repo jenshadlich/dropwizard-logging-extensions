@@ -14,7 +14,7 @@ import net.logstash.logback.encoder.LogstashEncoder;
 import javax.validation.constraints.NotNull;
 
 @JsonTypeName("logstash-event-log-tcp")
-public class LogstashTcpSocketAppenderFactory extends AbstractAppenderFactory {
+public class LogstashEventLogTcpSocketAppenderFactory extends AbstractAppenderFactory {
 
     @NotNull
     private String destination;
